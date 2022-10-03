@@ -20,7 +20,7 @@ public:
     void inputRear();
     bool insertNode(ListData x, int i);
     bool deleteNode(int i);
-    LinkNode *LocateNode(int i);
+    LinkNode *locateNode(int i);
     LinkNode *findNode(ListData x);
     void sortNode();
     void reverseNode();
@@ -42,6 +42,7 @@ LinkList::~LinkList()
         first->link = p->link;
         delete p;
     }
+    delete first;
 }
 
 void LinkList::inputFront()
@@ -79,7 +80,7 @@ void LinkList::inputRear()
 
 bool LinkList::insertNode(ListData x, int i)
 {
-    LinkNode *p = LocateNode(i - 1);
+    LinkNode *p = locateNode(i - 1);
     if (p == NULL)
         return false;
     LinkNode *newNode = new LinkNode;
@@ -91,7 +92,7 @@ bool LinkList::insertNode(ListData x, int i)
 
 bool LinkList::deleteNode(int i)
 {
-    LinkNode *p = LocateNode(i - 1);
+    LinkNode *p = locateNode(i - 1);
     if (p == NULL)
         return false;
     LinkNode *q = p->link;
@@ -100,7 +101,7 @@ bool LinkList::deleteNode(int i)
     return true;
 }
 
-LinkNode *LinkList::LocateNode(int i)
+LinkNode *LinkList::locateNode(int i)
 {
     LinkNode *p = first;
     for (int k = 1; k <= i; k++)
@@ -170,9 +171,36 @@ void LinkList::reverseNode()
 void LinkList::outputNode()
 {
     LinkNode *p = first->link;
-    while (p!=NULL)
+    while (p != NULL)
     {
         cout << p->data << " ";
         p = p->link;
     }
+}
+
+void merge(LinkList &A, LinkList &B)
+{
+    A.sortNode();
+    B.sortNode();
+    LinkNode *pa = A.locateNode(0);
+    LinkNode *pb = B.locateNode(0);
+    while (pb->link != NULL)
+    {
+        LinkNode *pb_next = pb->link;
+        if (pb->link <= pa->link)
+        {
+            pb->link = pb_next->link;
+            pb_next->link = pa->link;
+            pa->link = pb->link;
+            pa = pb_next;
+        }
+        else
+            pa = pa->link;
+        if (pa->link==NULL)
+        {
+            pa->link = pb->link;
+            pb->link = NULL;
+        }
+    }
+    A.reverseNode();
 }
