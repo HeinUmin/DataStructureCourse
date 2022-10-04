@@ -11,7 +11,9 @@
         "type_traits": "cpp",
         "xlocinfo": "cpp",
         "xlocnum": "cpp",
-        "xmemory": "cpp"
+        "xmemory": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp"
     },
     "files.defaultLanguage": "cpp", // ctrl+N新建文件后默认的语言
     "editor.formatOnType": true, // 输入时就进行格式化，默认触发字符较少，分号可以触发
@@ -27,9 +29,9 @@
     "code-runner.clearPreviousOutput": false, // 每次run code前清空属于code runner的终端消息
 
     "C_Cpp.clang_format_sortIncludes": true, // 格式化时调整include的顺序（按字母排序）
-    "C_Cpp.intelliSenseEngine": "Default", // 可以为Default或Tag Parser，后者较老，功能较简单。具体差别参考cpptools扩展文档
-    "C_Cpp.errorSquiggles": "Enabled", // 因为有clang的lint，所以关掉
-    "C_Cpp.autocomplete": "Default", // 因为有clang的补全，所以关掉
+    "C_Cpp.intelliSenseEngine": "default", // 可以为Default或Tag Parser，后者较老，功能较简单。具体差别参考cpptools扩展文档
+    "C_Cpp.errorSquiggles": "enabled", // 因为有clang的lint，所以关掉
+    "C_Cpp.autocomplete": "default", // 因为有clang的补全，所以关掉
 
     "clang.cflags": [ // 控制c语言静态检测的参数
         "--target=x86_64-w64-mingw",
@@ -41,5 +43,23 @@
         "-std=c++17",
         "-Wall"
     ],
-    "clang.completion.enable":false // 效果效果比cpptools要好
+    "clang.completion.enable":false, // 效果效果比cpptools要好
+    "terminal.integrated.profiles.windows": {
+        "PowerShell 7": {
+            "path": "C:\\Users\\wyh21\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShell_8wekyb3d8bbwe\\pwsh.exe",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell 7"
 }
