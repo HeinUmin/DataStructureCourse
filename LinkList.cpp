@@ -272,7 +272,7 @@ int main()
              << "4.删除元素；" << endl
              << "5.查找元素（按序号查找）；" << endl
              << "6.查找元素（按值查找）；" << endl
-             << "7.递增元素；" << endl
+             << "7.递增排序；" << endl
              << "8.倒序排列元素；" << endl
              << "9.按序输出元素；" << endl
              << "E.退出程序。" << endl;
@@ -358,10 +358,8 @@ int main()
             delete list;
             return 0;
         default:
-            cout << "非法输入，按回车键继续！" << endl;
-            while ((input = getchar()) != '\n')
-                continue;
-            break;
+            cout << "非法输入！" << endl;
+            exit(1);
         }
         cout << endl;
     }
