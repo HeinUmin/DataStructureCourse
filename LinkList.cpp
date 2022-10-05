@@ -16,12 +16,12 @@ private:
 public:
     LinkList();
     ~LinkList();
-    void inputFront();
-    void inputRear();
-    bool insertNode(ListData x, int i);
-    bool deleteNode(int i);
-    LinkNode *locateNode(int i);
-    int findNode(ListData x);
+    void inputFront();                  //前插法
+    void inputRear();                   //后插法
+    bool insertNode(ListData x, int i); //在第i个结点后插入，0<=i<=length
+    bool deleteNode(int i);             //删除第i个结点，0<i<=length
+    LinkNode *locateNode(int i);        //获取第i个结点，0<=i<=length
+    int findNode(ListData x);           //返回值为数据序号，0<i<=length
     void sortNode();
     void reverseNode();
     void outputNode();
@@ -29,7 +29,7 @@ public:
 
 LinkList::LinkList()
 {
-    first = new LinkNode;
+    first = new LinkNode; //初始化头结点
     first->data = '\0';
     first->link = NULL;
 }
@@ -37,13 +37,13 @@ LinkList::LinkList()
 LinkList::~LinkList()
 {
     LinkNode *p;
-    while (first->link != NULL)
+    while (first->link != NULL) //依次删除各结点
     {
         p = first->link;
         first->link = p->link;
         delete p;
     }
-    delete first;
+    delete first; //删除头结点
 }
 
 void LinkList::inputFront()
@@ -51,7 +51,7 @@ void LinkList::inputFront()
     char val;
     while ((val = getchar()) != '\n')
     {
-        LinkNode *newNode = new LinkNode;
+        LinkNode *newNode = new LinkNode; //分配新结点空间
         newNode->data = val;
         newNode->link = first->link;
         first->link = newNode;
@@ -62,11 +62,11 @@ void LinkList::inputRear()
 {
     char val;
     LinkNode *p = first;
-    while (p->link != NULL)
+    while (p->link != NULL) //定位到最后一个结点
         p = p->link;
     while ((val = getchar()) != '\n')
     {
-        LinkNode *newNode = new LinkNode;
+        LinkNode *newNode = new LinkNode; //分配新结点空间
         newNode->data = val;
         newNode->link = NULL;
         p->link = newNode;
@@ -77,10 +77,10 @@ void LinkList::inputRear()
 
 bool LinkList::insertNode(ListData x, int i)
 {
-    LinkNode *p = locateNode(i);
+    LinkNode *p = locateNode(i); //使用locateNode函数定位到指定结点
     if (p == NULL)
         return false;
-    LinkNode *newNode = new LinkNode;
+    LinkNode *newNode = new LinkNode; //分配新结点空间
     newNode->data = x;
     newNode->link = p->link;
     p->link = newNode;
@@ -89,7 +89,7 @@ bool LinkList::insertNode(ListData x, int i)
 
 bool LinkList::deleteNode(int i)
 {
-    LinkNode *p = locateNode(i - 1);
+    LinkNode *p = locateNode(i - 1); //使用locateNode函数定位到指定结点
     if (p == NULL)
         return false;
     LinkNode *q = p->link;
@@ -209,159 +209,4 @@ void merge(LinkList &A, LinkList &B)
         }
     }
     A.reverseNode();
-}
-
-void testMerge()
-{
-    LinkList *A = new LinkList();
-    LinkList *B = new LinkList();
-    getchar();
-    cout << "请输入链表A中的数据（字符型，每个字符间无需隔开，回车结束输入）：" << endl;
-    A->inputRear();
-    cout << "请输入链表B中的数据（字符型，每个字符间无需隔开，回车结束输入）：" << endl;
-    B->inputRear();
-    merge(*A, *B);
-    cout << "合并后的数据为：" << endl;
-    A->outputNode();
-    delete A;
-    delete B;
-}
-
-int main()
-{
-    bool init = false;
-    char input = '\0';
-    int index = 0;
-    int x = -1;
-    LinkNode *p = NULL;
-    LinkList *list = NULL;
-    while (true)
-    {
-        if (!init)
-        {
-            cout << "选择操作：" << endl
-                 << "1.初始化链表；" << endl
-                 << "2.测试合并链表程序；" << endl
-                 << "0.退出程序。" << endl;
-            cin >> input;
-            switch (input)
-            {
-            case '1':
-                init = true;
-                list = new LinkList();
-                cout << "初始化成功！" << endl
-                     << endl;
-                break;
-            case '2':
-                testMerge();
-                cout << endl;
-                continue;
-            case '0':
-                return 0;
-            default:
-                cout << "非法输入，请重新输入内容！" << endl
-                     << endl;
-                continue;
-            }
-        }
-        cout << "请输入序号：" << endl
-             << "0.销毁链表；" << endl
-             << "1.插入元素（头插法）；" << endl
-             << "2.插入元素（尾插法）；" << endl
-             << "3.插入元素；" << endl
-             << "4.删除元素；" << endl
-             << "5.查找元素（按序号查找）；" << endl
-             << "6.查找元素（按值查找）；" << endl
-             << "7.递增排序；" << endl
-             << "8.倒序排列元素；" << endl
-             << "9.按序输出元素；" << endl
-             << "E.退出程序。" << endl;
-        cin >> input;
-        switch (input)
-        {
-        case '0':
-            delete list;
-            cout << "链表已销毁！" << endl;
-            init = false;
-            break;
-        case '1':
-            cout << "请输入数据（字符型，每个字符间无需隔开，回车结束输入）：" << endl;
-            getchar();
-            list->inputFront();
-            cout << "插入成功！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '2':
-            cout << "请输入数据（字符型，每个字符间无需隔开，回车结束输入）：" << endl;
-            getchar();
-            list->inputRear();
-            cout << "插入成功！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '3':
-            cout << "请输入数据（字符型）和位置（整型）：" << endl;
-            cin >> input >> index;
-            if (list->insertNode(input, index))
-                cout << "插入成功！" << endl;
-            else
-                cout << "插入失败！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '4':
-            cout << "请输入序号（整型）：" << endl;
-            cin >> index;
-            if (list->deleteNode(index))
-                cout << "删除成功！" << endl;
-            else
-                cout << "删除失败！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '5':
-            cout << "请输入序号（整型）：" << endl;
-            cin >> index;
-            p = list->locateNode(index);
-            if (p != NULL)
-                cout << "目标结点中的数据为 " << p->data << endl;
-            else
-                cout << "未查询到相关结点！" << endl;
-            break;
-        case '6':
-            cout << "请输入数据（字符型）：" << endl;
-            cin >> input;
-            x = list->findNode(input);
-            if (x != -1)
-                cout << "目标结点的序号为 " << x << endl;
-            else
-                cout << "未查询到相关结点！" << endl;
-            break;
-        case '7':
-            list->sortNode();
-            cout << "排序完成！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '8':
-            list->reverseNode();
-            cout << "倒序排列完成！" << endl;
-            cout << "当前表内数据为：" << endl;
-            list->outputNode();
-            break;
-        case '9':
-            list->outputNode();
-            break;
-        case 'e':
-        case 'E':
-            delete list;
-            return 0;
-        default:
-            cout << "非法输入！" << endl;
-            exit(1);
-        }
-        cout << endl;
-    }
-    return 0;
 }
